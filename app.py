@@ -15,8 +15,9 @@ def login():
 def valid_login(username):
   user = db.users.find_one({'username' : username})
   if user is not None:
-    return "YES"
-  return "NO"
+    return { "logged_in" : 1 } 
+
+  return { "logged_in" : 0}
 
 if __name__ =="__main__":
   app.run(debug=True)
