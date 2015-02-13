@@ -14,14 +14,6 @@ def login():
      username = request.form['username']
      return valid_login(username)
 
-def valid_login(username):
-  user = db.users.find_one({'username' : username})
-  if user is not None:
-    return jonify({'logged_in' : 1 })
-
-  return jonify({ 'logged_in' : 0})
-
-
 @app.route('/signup', methods=['POST'])
 def signup():
   if request.method == "POST":
@@ -31,33 +23,18 @@ def signup():
      try:
 	batch  = int(batch)
      except:
-	return jsonify({'Signed Up' : 0 })
+	return jsonify({'Signed Up':0})
      user = {
-	      "username" : username,
-	      "batch" : batch,
-	      "department" : dept
+	      "username" :username,
+	      "batch" :batch,
+	      "department" :dept
 	     }
      if validateUser(user):
 	print user
 	db.users.insert(user)
-        return jsonify({"Signed Up" : 1})
-     return jsonify({ "Signed Up" : 0 })
+        return jsonify({"Signed Up" :1})
+     return jsonify({"Signed Up" :0})
 
-def validateUser(user):
-   schema = {
-	"type" : "object",
-	"properties" : {
-	    "username" : { "type" : "string" },
-	    "batch" : { "type" : "number" },
-	    "department" : { "type" : "string" },
-	},
-    }
-   try:
-	validate(user,schema)
-   except (ValidationError), e :
-	print e.message
-	return False
-   return True
 
 if __name__ =="__main__":
   app.run(debug=True)
