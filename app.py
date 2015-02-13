@@ -1,12 +1,9 @@
 #!flask/bin/python
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
-from jsonschema import validate, exceptions,ValidationError
-
+from helper import valid_login, validate_user
+from config import db
 app = Flask(__name__)
-client = MongoClient("mongodb://localhost:27017/")
-
-db = client['CrApp']
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -29,7 +26,7 @@ def signup():
 	      "batch" :batch,
 	      "department" :dept
 	     }
-     if validateUser(user):
+     if validate_user(user):
 	print user
 	db.users.insert(user)
         return jsonify({"Signed Up" :1})

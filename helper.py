@@ -1,4 +1,7 @@
-def validateUser(user):
+from config import db
+from flask import jsonify
+from jsonschema import validate, exceptions,ValidationError
+def validate_user(user):
    schema = {
 	"type" : "object",
 	"properties" : {
@@ -20,5 +23,3 @@ def valid_login(username):
     return jsonify({'logged_in':1})
 
   return jsonify({'logged_in':0})
-
-
