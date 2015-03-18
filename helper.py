@@ -15,6 +15,11 @@ def validate_user(user):
    except (ValidationError), e :
 	print e.message
 	return False
+   tempUser = db.users.find_one({'username': user["username"]});
+   print tempUser
+   print user["username"]
+   if tempUser is not None:
+        return False
    return True
 
 def valid_login(username):
