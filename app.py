@@ -36,8 +36,8 @@ def signup():
      return jsonify({"Signed Up" :0})
 
 @app.route('/home/<username>', methods=['GET'])
-def getTimeTable():
-  print username
-
+def getTimeTable(username):
+  tt = get_timetable(username) 
+  return tt
 if __name__ =="__main__":
   app.run(debug=True)

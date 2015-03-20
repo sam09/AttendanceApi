@@ -1,6 +1,8 @@
 from config import db
 from flask import jsonify
 from jsonschema import validate, exceptions,ValidationError
+from bson.json_util import dumps
+
 '''
 def set_timetable():
    schema = {
@@ -24,7 +26,12 @@ def set_timetable():
        }}
    }
 '''
-def get_timetable(user):
-   timetable = db.timetable.find_one({"department": user['department'], "batch": user['batch']})
-   return timetable
-   
+def get_timetable(username):
+   user = db.users.find_one({"username" : username})
+   batch = user["batch"]
+   department = user['department']
+   tt = db.timetable.find_one({'batch' : batch, 'department' : department})
+   print tt
+   #tt.ObjectId()
+   #timetable = JSONEncoder().encode(tt);
+   return dumps(tt)
