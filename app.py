@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from helper import valid_login, validate_user
 from config import db
 from timetable import get_timetable
-
+from classes import get_classes
 
 app = Flask(__name__)
 
@@ -39,5 +39,10 @@ def signup():
 def getTimeTable(username):
   tt = get_timetable(username) 
   return tt
+
+@app.route('/update/<username>', methods=['GET', 'POST'])
+def getPending(username):
+  return get_classes(username)
+
 if __name__ =="__main__":
   app.run(debug=True)
