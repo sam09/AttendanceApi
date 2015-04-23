@@ -42,7 +42,9 @@ def getTimeTable(username):
 
 @app.route('/update/<username>', methods=['GET', 'POST'])
 def getPending(username):
-  return get_classes(username)
+  if request.method == "GET":
+    return get_classes(username)
 
 if __name__ =="__main__":
   app.run(debug=True)
+
