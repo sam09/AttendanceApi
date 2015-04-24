@@ -28,7 +28,7 @@ def signup():
 	      "username" :username,
 	      "batch" :batch,
 	      "department" :dept,
-              "occurences" :[]
+              "attendance" :[]
 	    }
      if validate_user(user):
 	print user
