@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from helper import valid_login, validate_user
 from config import db
 from timetable import get_timetable
-from classes import get_pending_classes
+from classes import get_pending_classes, set_pending_classes
 
 app = Flask(__name__)
 
@@ -45,6 +45,13 @@ def getTimeTable(username):
 def getPending(username):
   if request.method == "GET":
     return get_pending_classes(username)
+
+@app.route('/update/<username>', methods=['POST'])
+def setPending(username):
+  if request.method == "POST":
+    cid = int(request.form['id'])
+    p = request.form['presence']
+    return set_pending_classes(username, cid, p)
 
 if __name__ =="__main__":
   app.run(debug=True)

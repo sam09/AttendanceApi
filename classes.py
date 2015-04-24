@@ -31,3 +31,13 @@ def get_pending_classes(username):
              t = {  "name" : name,  "code" : code, "id" : j["id"], "date" : j["date"], "time"  : j["time"] }
              spending.append(t)
    return dumps(spending)
+
+def set_pending_classes(username , cid,c):
+   user = db.users.find_one({"username" :username})
+   attendance = user["attendance"]
+   for i in attendance:
+      if i["id"]== cid and i["presence"]== "n":
+	i['presence'] = c
+        return jsonify({"updated" : 1})
+   return jsonify({"updated" : 0})
+
