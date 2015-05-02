@@ -37,7 +37,7 @@ def set_pending_classes(username , cid,c):
    attendance = user["attendance"]
    for i in attendance:
       if i["id"]== cid and i["presence"]== "n":
-	i['presence'] = c
+        i['presence'] = c
         return jsonify({"updated" : 1})
    return jsonify({"updated" : 0})
 

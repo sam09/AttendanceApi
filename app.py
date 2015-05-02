@@ -5,7 +5,8 @@ from helper import valid_login, validate_user
 from config import db
 from timetable import get_timetable
 from classes import get_pending_classes, set_pending_classes
-from attendance import get_attendance
+from attendance import get_attendance, update_attendance
+
 app = Flask(__name__)
 
 @app.route('/login', methods=['POST'])
@@ -28,7 +29,7 @@ def signup():
 	      "username" :username,
 	      "batch" :batch,
 	      "department" :dept,
-              "attendance" :[]
+        "attendance" :[]
 	    }
      if validate_user(user):
 	print user
@@ -41,7 +42,7 @@ def getTimeTable(username):
   tt = get_timetable(username) 
   return tt
 
-@app.route('/update/<username>', methods=['GET'])
+@app.route('/pending/<username>', methods=['GET'])
 def getPending(username):
   if request.method == "GET":
     return get_pending_classes(username)
@@ -53,11 +54,18 @@ def setPending(username):
     p = request.form['presence']
     return set_pending_classes(username, cid, p)
 
-@app.route('/view/<username>', methods=['POST'])
+@app.route('/attendance/view/<username>', methods=['POST'])
 def getAttendance(username):
   if request.method== "POST":
     sub = request.form['subject']
     return get_attendance(username, sub)
+
+@app.route('/attendance/update/<username>', methods=['POST'])
+def updateAttendance(username):
+  if request.method == "POST":
+    id = int(request.form["id"])
+    value = request.form["value"]
+    return update_attendance(username, id, value)
 
 if __name__ =="__main__":
   app.run(debug=True)
