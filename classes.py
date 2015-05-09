@@ -33,11 +33,17 @@ def get_pending_classes(username):
    return dumps(spending)
 
 def set_pending_classes(username , cid,c):
-   user = db.users.find_one({"username" :username})
-   attendance = user["attendance"]
-   for i in attendance:
-      if i["id"]== cid and i["presence"]== "n":
-        i['presence'] = c
-        return jsonify({"updated" : 1})
-   return jsonify({"updated" : 0})
+  user = db.users.find_one({"username" :username})
+  attendance = user["attendance"]
+  for i in attendance:
+    if i["id"]== cid and i["presence"]== "n":
+      i['presence'] = c
+
+  
+  done = db.users.update( {"username" : username }, { '$set': { "attendance" : attendance } } )
+  print attendance
+  if done is not None:
+    return jsonify({"updated" : 1})
+  
+  return jsonify({"updated" : 0})
 

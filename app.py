@@ -64,7 +64,7 @@ def getAttendance(username):
 def updateAttendance(username):
   if request.method == "POST":
     id = int(request.form["id"])
-    value = request.form["value"]
+    value = request.form["presence"]
     return update_attendance(username, id, value)
 
 if __name__ =="__main__":

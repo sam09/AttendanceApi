@@ -3,6 +3,7 @@ from flask import jsonify
 from jsonschema import validate, exceptions,ValidationError
 from bson.json_util import dumps
 from classes import get_classes
+
 def get_attendance(username, subject):
     user = db.users.find_one({"username" : username})
     attendance = user['attendance']
@@ -32,6 +33,7 @@ def get_attendance(username, subject):
     				  }
     print dumps(attendance_sub)
     return dumps( attendance_sub )
+
 def update_attendance(username, id, value):
     user = db.users.find_one({"username" : username})
     attendance = user["attendance"]
@@ -39,6 +41,10 @@ def update_attendance(username, id, value):
     for i in attendance:
         if i["id"] == id:
             i["presence"] = value
-            return jsonify({"updated" : 1})
-    
+  
+    done = db.users.update( {"username" : username }, { '$set': { "attendance" : attendance } } )
+    print attendance
+    if done is not None:
+        return jsonify({"updated" : 1})
+  
     return jsonify({"updated" : 0, "error" : "No Value"})
