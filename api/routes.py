@@ -1,4 +1,3 @@
-#!flask/bin/python
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
 from helper import valid_login, validate_user
