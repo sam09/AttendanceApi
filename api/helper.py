@@ -1,6 +1,8 @@
 from config import db
 from flask import jsonify
+import imaplib
 from jsonschema import validate, exceptions,ValidationError
+IMAP_SERVER = 'webmail.nitt.edu'
 def validate_user(user):
    schema = {
 	"type" : "object",
@@ -22,9 +24,17 @@ def validate_user(user):
         return False
    return True
 
-def valid_login(username):
-  user = db.users.find_one({'username' : username})
-  if user is not None:
-    return jsonify({'logged_in':1})
+def valid_login(username,password):
+ #user = db.users.find_one({'username' : username})
+  try:
+        imap = imaplib.IMAP4(IMAP_SERVER)
+        login = imap.login(username, password)
+        success = login[0]
+        if(success=='OK'):
+        	return jsonify({'logged_in':1})
+  except:
+  	return jsonify({'logged_in':0})
+ # if user is not None:
+#    return jsonify({'logged_in':1})
 
-  return jsonify({'logged_in':0})
+ # return jsonify({'logged_in':0})
