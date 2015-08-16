@@ -12,7 +12,8 @@ app = Flask(__name__)
 def login():
   if request.method == "POST":
      username = request.form['username']
-     return valid_login(username)
+     password = request.form['password']
+     return valid_login(username,password)
 
 @app.route('/signup', methods=['POST'])
 def signup():
